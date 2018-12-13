@@ -9,7 +9,6 @@ const { HTTP_STATUS_CODES } = require("../config");
 // CREATES new user.
 exports.createNewuser = (request, response) => {
   const newUser = {
-    name: request.body.name,
     email: request.body.email,
     username: request.body.username,
     password: request.body.password
@@ -31,12 +30,10 @@ exports.createNewuser = (request, response) => {
     .then(user => {
       if (user) {
         // Step 3A: If user already exists, abruptly end the request with an error.
-        return response
-          .status(HTTP_STATUS_CODES.BAD_REQUEST)
-          .json({
-            error:
-              "Database Error: A user with that username and/or email already exists."
-          });
+        return response.status(HTTP_STATUS_CODES.BAD_REQUEST).json({
+          error:
+            "Database Error: A user with that username and/or email already exists."
+        });
       }
       // Step 3B: We should NEVER store raw passwords, so instead we wait while we encrypt it into a hash.
       return User.hashPassword(newUser.password);

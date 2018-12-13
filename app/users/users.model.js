@@ -5,7 +5,6 @@ const bcrypt = require("bcryptjs");
 
 // Defines mongoose schema for users.
 const usersSchema = new mongoose.Schema({
-  name: { type: String, required: true },
   email: { type: String, required: true },
   username: { type: String, required: true },
   password: { type: String, required: true }
@@ -16,7 +15,6 @@ const usersSchema = new mongoose.Schema({
 usersSchema.methods.serialize = function() {
   return {
     id: this._id,
-    name: this.name,
     email: this.email,
     username: this.username
   };
@@ -34,10 +32,6 @@ usersSchema.methods.validatePassword = function(password) {
 
 // Validates user's input using Joi.
 const UserJoiSchema = Joi.object().keys({
-  name: Joi.string()
-    .min(1)
-    .trim()
-    .required(),
   username: Joi.string()
     .alphanum()
     .min(4)

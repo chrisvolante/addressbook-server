@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const passport = require("passport");
+const cors = require("cors");
 
 const {
   PORT,
@@ -12,9 +13,10 @@ const {
   TEST_MONGO_URL
 } = require("./config.js");
 
+const { localStrategy, jwtStrategy } = require("./auth/auth.strategies");
 const authRoutes = require("./auth/auth.routes");
 const usersRoutes = require("./users/users.routes");
-const { localStrategy, jwtStrategy } = require("./auth/auth.strategies");
+const contactsRoutes = require("./contacts/contacts.routes");
 
 let server;
 const app = express();
@@ -22,6 +24,7 @@ passport.use(localStrategy); // Configure Passport to use our localStrategy when
 passport.use(jwtStrategy); // Configure Passport to use our jwtStrategy when receving JSON Web Tokens
 
 // MIDDLEWARE.
+app.use(cors());
 app.use(bodyParser.json()); // Will tell the app that it will accept and send JSON data.
 app.use(morgan("common")); // Will log common elements in HTTP requests.
 app.use("/", express.static("public")); // Will serve static files that is the Front-End.
@@ -29,6 +32,7 @@ app.use("/", express.static("public")); // Will serve static files that is the F
 // Re-directs calls to appropriate routes.
 app.use("/auth", authRoutes);
 app.use("/users", usersRoutes);
+app.use("/contacts", contactsRoutes);
 
 // In case we make a HTTP request that is unhandled by our Express server, we return a 404 status code and the message "Not Found."
 app.use("*", function(request, response) {
