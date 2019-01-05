@@ -61,7 +61,10 @@ const jwtStrategy = new JwtStrategy(
 const localPassportMiddleware = passport.authenticate("local", {
   session: false
 });
-const jwtPassportMiddleware = passport.authenticate("jwt", { session: false });
+const jwtPassportMiddleware = passport.authenticate("jwt", {
+  session: false,
+  failureRedirect: "/signin"
+});
 
 // Exports passport middleware strategies.
 module.exports = {
