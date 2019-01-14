@@ -65,7 +65,7 @@ exports.updateContactbyID = async (request, response) => {
       request.params.contactid,
       updatedContactValues
     );
-    return response.status(HTTP_STATUS_CODES.OK).end();
+    return response.status(HTTP_STATUS_CODES.OK).json({ success: true });
   } catch (error) {
     return response.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).json(error);
   }
@@ -76,7 +76,7 @@ exports.deleteContactByID = async (request, response) => {
     let deletedContact = await Contact.findOneAndDelete(
       request.params.contactid
     );
-    return response.status(HTTP_STATUS_CODES.NO_CONTENT).end();
+    return response.status(HTTP_STATUS_CODES.CREATED).json({ success: true });
   } catch (error) {
     return response.status(HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR).json(error);
   }

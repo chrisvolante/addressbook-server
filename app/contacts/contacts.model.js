@@ -3,10 +3,10 @@ const mongoose = require("mongoose");
 const contactsSchema = mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
   name: { type: String, required: true },
-  description: { type: String, required: false },
+  description: { type: String, required: true },
   phone: { type: String, required: true },
   email: { type: String, required: true },
-  address: { type: String, required: false }
+  address: { type: String, required: true }
 });
 
 contactsSchema.methods.serialize = function() {
